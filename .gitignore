@@ -1,0 +1,6 @@
+*.pyc
+*.xml
+*.iml
+./EMSystem/__init__.py
+./EMSystem/settings.py
+./SharedsModels/migrations/
