@@ -1,7 +1,7 @@
 
 # Employee Management System
 
-基于`python3.10和`Django4.1`的员工管理系统
+基于`python3.10和`Django4.1`的部门人员数据管理
 
 ## 环境安装
 
