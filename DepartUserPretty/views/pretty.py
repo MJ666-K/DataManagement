@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from DepartUserPretty import models
-from DepartUserPretty.DPUModelForm import PrettyModelForm, PrettyEditModelForm
+from DepartUserPretty.PublicModelForm import PrettyModelForm, PrettyEditModelForm
 from DepartUserPretty.utils.pagination import Paginstion
 # Create your views here.
 
@@ -16,7 +16,7 @@ def pretty_list(request):
     context = {
         'queryset': page_object.page_queryset,  # 分完页的数据
         "search_data": search_data,
-        "page_string": page_object.html(), # 页码
+        "page_string": page_object.html(),  # 页码
     }
     return render(request, "pretty_list.html", context)
 

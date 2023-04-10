@@ -1,17 +1,22 @@
 from django.shortcuts import render, redirect
 from DepartUserPretty import models
-from DepartUserPretty.DPUModelForm import UserModelForm
+from DepartUserPretty.PublicModelForm import UserModelForm
 from DepartUserPretty.utils.pagination import Paginstion
 # Create your views here.
 
 
 def user_list(request):
     """ 用户列表 """
-    queryset = models.UserInfo.objects.all()
+    date_dict = {}
+    search_data = request.GET.get('q', "")
+    if search_data:
+        date_dict["name__contains"] = search_data
+    queryset = models.UserInfo.objects.filter(**date_dict)
     page_object = Paginstion(request, queryset)
     context = {
         "queryset": page_object.page_queryset,
         "page_string": page_object.html(),
+        "search_data": search_data,
     }
     return render(request, 'user_list.html', context)
 
