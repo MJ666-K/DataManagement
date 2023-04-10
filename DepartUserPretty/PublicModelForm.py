@@ -2,6 +2,61 @@ from django import forms
 from DepartUserPretty import models
 from django.core.exceptions import ValidationError
 from DepartUserPretty.utils.BootstrapModelform import BootStrapModelForm
+from DepartUserPretty.utils.encrypt import md5
+
+
+class AdminModelForm(BootStrapModelForm):
+    conform_password = forms.CharField(label="确认密码", widget=forms.PasswordInput(render_value=True))
+
+    class Meta:
+        model = models.Admin
+        fields = ["username", "password", "conform_password"]
+        widgets = {
+            "password": forms.PasswordInput(render_value=True)
+        }
+
+    def clean_password(self):
+        pwd = self.cleaned_data.get("password")
+        return md5(pwd)
+
+    def clean_conform_password(self):
+        pwd = self.cleaned_data.get("password")
+        conform = md5(self.cleaned_data.get("conform_password"))
+        if conform != pwd:
+            raise ValidationError("密码不一致！")
+        return conform
+
+
+class AdminEditModelForm(BootStrapModelForm):
+    class Meta:
+        model = models.Admin
+        fields = ["username"]
+
+
+class AdminResetModelForm(BootStrapModelForm):
+    conform_password = forms.CharField(label="确认密码", widget=forms.PasswordInput(render_value=True))
+
+    class Meta:
+        model = models.Admin
+        fields = ["password", "conform_password"]
+        widgets = {
+            "password": forms.PasswordInput(render_value=True)
+        }
+
+    def clean_password(self):
+        pwd = self.cleaned_data.get("password")
+        md5_pwd = md5(pwd)
+        exists = models.Admin.objects.filter(id=self.instance.pk, password=md5_pwd).exists()
+        if exists:
+            raise ValidationError('不能与以前的密码一致')
+        return md5_pwd
+
+    def clean_conform_password(self):
+        pwd = self.cleaned_data.get("password")
+        conform = md5(self.cleaned_data.get("conform_password"))
+        if conform != pwd:
+            raise ValidationError("密码不一致！")
+        return conform
 
 
 class UserModelForm(BootStrapModelForm):

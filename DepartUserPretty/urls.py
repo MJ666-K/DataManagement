@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from DepartUserPretty.views import pretty, user, depart
+from DepartUserPretty.views import pretty, user, depart, admin
 
 urlpatterns = [
     path('pretty/list/', pretty.pretty_list),
@@ -31,4 +31,11 @@ urlpatterns = [
     path('user/add/', user.user_add),
     path('user/<int:nid>/delete/', user.user_delete),
     path('user/<int:nid>/edit/', user.user_edit),
+
+    path('admin/list/', admin.admin_list),
+    path('admin/add/', admin.admin_add),
+    path('admin/<int:nid>/edit/', admin.admin_edit),
+    path('admin/<int:nid>/delete/', admin.admin_delete),
+    path('admin/<int:nid>/reset/', admin.admin_reset),
+
 ]
