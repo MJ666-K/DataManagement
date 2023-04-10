@@ -1,8 +1,18 @@
 from django import forms
 from DepartUserPretty import models
 from django.core.exceptions import ValidationError
-from DepartUserPretty.utils.BootstrapModelform import BootStrapModelForm
+from DepartUserPretty.utils.BootstrapModelform import BootStrapModelForm, BootStrapForm
 from DepartUserPretty.utils.encrypt import md5
+
+
+class LoginForm(BootStrapForm):
+    username = forms.CharField(label="用户名", widget=forms.TextInput, required=True)
+    password = forms.CharField(label="密码",  widget=forms.PasswordInput(render_value=True), required=True)
+    code = forms.CharField(label="验证码",  widget=forms.TextInput, required=True)
+
+    def clean_password(self):
+        pwd = self.cleaned_data.get("password")
+        return md5(pwd)
 
 
 class AdminModelForm(BootStrapModelForm):
