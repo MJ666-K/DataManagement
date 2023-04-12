@@ -10,19 +10,19 @@
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title"> 编辑用户 </h3>
+                <h3 class="panel-title"> 编辑用户 </h3>
             </div>
             <div class="panel-body">
                 <form method="post" novalidate>
                     {% csrf_token %}
                     {% for field in form %}
-                    <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">{{ field.label }}</label>
-                        <div class="col-sm-10">
-                            {{ field }}
-                            <span style="color: red">{{ field.errors }}</span>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">{{ field.label }}</label>
+                            <div class="col-sm-10">
+                                {{ field }}
+                                <span style="color: red">{{ field.errors }}</span>
+                            </div>
                         </div>
-                    </div>
                     {% endfor %}
                     <button type="submit" class="btn btn-primary">提 交</button>
                 </form>
@@ -33,15 +33,6 @@
 {% block js %}
     <script src="{% static 'plugins/bootstrap-datepicker/js/bootstrap-datetimepicker.js' %}"></script>
     <script src="{% static 'plugins/bootstrap-datepicker/locales/bootstrap-datetimepicker.zh-CN.js' %}"></script>
-    <script>
-        $(function (){
-            $('#id_create_time').datetimepicker({
-                format: 'yyyy-mm-dd',
-                startDate: '0',
-                language: 'zh-CN',
-                autoclose: true
-            });
-        })
-    </script>
+    <script src="{% static 'js/user.js' %}"></script>
 {% endblock %}
 

@@ -114,3 +114,34 @@ class PrettyEditModelForm(BootStrapModelForm):
         if exists:
             raise ValidationError("手机号已存在！")
         return txt_mobile
+
+
+class TaskModelForm(BootStrapModelForm):
+    class Meta:
+        model = models.Task
+        fields = "__all__"
+        widgets = {
+            "detail": forms.TextInput  # Textarea
+        }
+
+
+class OrderModelForm(BootStrapModelForm):
+    class Meta:
+        model = models.Order
+        fields = "__all__"
+        exclude = ["oid", "admin"]
+
+
+class UpForm(BootStrapForm):
+    bootstrap_exclude_fields = ["img"]
+    name = forms.CharField(label="姓名")
+    age = forms.CharField(label="年龄")
+    img = forms.FileField(label="头像")
+
+
+class UpModelForm(BootStrapModelForm):
+    bootstrap_exclude_fields = ["img"]
+
+    class Meta:
+        model = models.City
+        fields = "__all__"
