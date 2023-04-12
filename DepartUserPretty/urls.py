@@ -13,10 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
-from DepartUserPretty.views import pretty, user, depart, admin, account
+from django.urls import path, re_path
+from django.views.static import serve
+from django.conf import settings
+from DepartUserPretty.views import pretty, user, depart, admin, account, order, chart, upload, city
 
 urlpatterns = [
+
+    re_path(r"^media/(?P<path>.*)$", serve, {'document_root': settings.MEDIA_ROOT}, name='media'),
     path('pretty/list/', pretty.pretty_list),
     path('pretty/add/', pretty.pretty_add),
     path('pretty/<int:nid>/delete/', pretty.pretty_delete),
@@ -26,6 +30,7 @@ urlpatterns = [
     path('depart/add/', depart.depart_add),
     path('depart/delete/', depart.depart_delete),
     path('depart/<int:nid>/edit/', depart.depart_edit),
+    path('depart/multi/', depart.depart_multi),
 
     path('user/list/', user.user_list),
     path('user/add/', user.user_add),
@@ -41,5 +46,20 @@ urlpatterns = [
     path('login/', account.login),
     path('logout/', account.logout),
     path('image/code/', account.image_code),
+
+    path('order/list/', order.order_list),
+    path('order/add/', order.order_add),
+    path('order/delete/', order.order_delete),
+    path('order/edit/', order.order_edit),
+    path('order/SaveEdit/', order.order_SaveEdit),
+
+    path('chart/list/', chart.chart_list),
+    path('chart/bar/', chart.chart_bar),
+    path('chart/pie/', chart.chart_pie),
+    path('chart/line/', chart.chart_line),
+
+    path('upload/document/', upload.upload_document),
+    path('city/list/', city.city_list),
+    path('city/add/', city.city_add),
 
 ]

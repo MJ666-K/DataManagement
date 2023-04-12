@@ -1,35 +1,19 @@
 {% extends 'ParentTemplate.html' %}
 {% block title %}
-    <title>部门列表</title>
+    <title>城市列表</title>
 {% endblock %}
 {% block content %}
     <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                批量上传
-            </div>
-            <div class="panel-body">
-                <form method="post" enctype="multipart/form-data" action="/depart/multi/">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <input type="file" name="exc">
-                    </div>
-                    <input type="submit" value="上传" class="btn btn-info btn-sm">
-                </form>
-            </div>
-        </div>
-
         <div style="margin-bottom: 10px">
-            <a class="btn btn-success" href="/depart/add/">
+            <a class="btn btn-success" href="/city/add/">
                 <span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>
-                新建部门
+                添加城市
             </a>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                部门列表
+                城市列表
             </div>
 
             <!-- Table -->
@@ -38,6 +22,8 @@
                 <tr>
                     <th>ID</th>
                     <th>名称</th>
+                    <th>人口</th>
+                    <th>Logo</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -45,7 +31,11 @@
                 {% for obj in queryset %}
                     <tr>
                         <td>{{ obj.id }}</td>
-                        <td>{{ obj.title }}</td>
+                        <td>{{ obj.name }}</td>
+                        <td>{{ obj.count }}</td>
+                        <td>
+                            <img src="/media/{{ obj.img }}" style="height: 80px;">
+                        </td>
                         <td>
                             <a class="btn btn-primary btn-xs" href="/depart/{{ obj.id }}/edit/">编辑</a>
                             <a class="btn btn-danger btn-xs" href="/depart/delete/?nid={{ obj.id }}">删除</a>

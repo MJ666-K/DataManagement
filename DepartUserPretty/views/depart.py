@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from DepartUserPretty import models
 from DepartUserPretty.utils.pagination import Paginstion
+from openpyxl import load_workbook
 # Create your views here.
 
 
 def depart_list(request):
     """ 部门列表 """
     queryset = models.Department.objects.all()
-    page_object = Paginstion(request, queryset)
+    page_object = Paginstion(request, queryset, page_size=6)
     context = {
         "queryset": page_object.page_queryset,
         "page_string": page_object.html(),
@@ -40,3 +41,15 @@ def depart_edit(request, nid):
     models.Department.objects.filter(id=nid).update(title=title)
     return redirect('/depart/list')
 
+
+def depart_multi(request):
+    """批量上传excel文件"""
+    file_object = request.FILES.get("exc")
+    wb = load_workbook(file_object)
+    sheet = wb.worksheets[0]
+    for row in sheet.iter_rows(min_row=2):
+        text = row[0].value
+        exists = models.Department.objects.filter(title=text).exists()
+        if not exists:
+            models.Department.objects.create(title=text)
+    return redirect('/depart/list/')

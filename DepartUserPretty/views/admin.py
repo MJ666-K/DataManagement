@@ -37,7 +37,6 @@ def admin_edit(request, nid):
     """编辑管理员"""
     row_object = models.Admin.objects.filter(id=nid).first()
     if not row_object:
-        # return render(request, 'error.html', {"msg": "数据不存在！！！"})
         return redirect('/admin/list/')
     if request.method == "GET":
         form = AdminEditModelForm(instance=row_object)
